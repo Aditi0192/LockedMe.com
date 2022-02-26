@@ -39,74 +39,65 @@ public class FileUserOperations {
 			else {
 				System.out.println("Mentioned Directory is not present.Please try with existing directory name");
 				System.out.println("Do yo want to continue? Y/N");
-				while(true) {
-				answer= sc.next().charAt(0);
-				if(answer=='y'||answer=='Y') {
-					addUserFile();
-				}
-				else if(answer=='n'||answer=='N') {
-					System.out.println("returning to main menu");
-					System.out.println("**********************************************************************");
-					return;
-				}
-				else {
-					System.out.println("Please enter a valid option Y/N");
-				}
+				while (true) {
+					answer = sc.next().charAt(0);
+					if (answer == 'y' || answer == 'Y') {
+						addUserFile();
+					} else if (answer == 'n' || answer == 'N') {
+						System.out.println("returning to main menu");
+						System.out.println("**********************************************************************");
+						return;
+					} else {
+						System.out.println("Please enter a valid option Y/N");
+					}
 				}
 			}
-				
-			
-			
+
 		} catch (Exception e) {
 			System.out.println("Some error occured..plese contact administrator");
 		}
 
 	}
-	
-	
-	//method to input user specified file 
+
+	// method to input user specified file
 	public void getUserFile(String dirN) {
-		
+
 		Scanner sc = new Scanner(System.in);
 		char answer = 0;
 		System.out.println("Enter a filename to add in a mentioned directory");
 		String userFileName = sc.next();
 		try {
-		File myFile = new File(rootPath + "\\" + dirN + "\\" + userFileName); //creation of new file
-		if (myFile.exists()) {
-			System.out.println("File name already exist..Do you want to replace it? Press Y/N");
-			while(true){
-			answer = sc.next().charAt(0);
-			if (answer == 'y' || answer == 'Y') {
-				myFile.delete();
+			File myFile = new File(rootPath + "\\" + dirN + "\\" + userFileName); // creation of new file
+			if (myFile.exists()) {
+				System.out.println("File name already exist..Do you want to replace it? Press Y/N");
+				while (true) {
+					answer = sc.next().charAt(0);
+					if (answer == 'y' || answer == 'Y') {
+						myFile.delete();
+						myFile.createNewFile();
+						System.out.println("your file has been added in the location :" + rootPath + "\\" + dirN);
+						System.out.println("**********************************************************************");
+						return;
+					} else if (answer == 'n' || answer == 'n') {
+						System.out.println("directing back to main options");
+						return;
+					} else {
+						System.out.println("Please enter a valid option Y/N");
+					}
+				}
+
+			} // if (myFile.exists()) ends
+			else {
 				myFile.createNewFile();
 				System.out.println("your file has been added in the location :" + rootPath + "\\" + dirN);
 				System.out.println("**********************************************************************");
 				return;
 			}
-			else if (answer == 'n' || answer == 'n') {
-				System.out.println("directing back to main options");
-				return;
-			}
-			else {
-				System.out.println("Please enter a valid option Y/N");
-			}
-			}
-			
-		}//if (myFile.exists()) ends
-		else {
-			myFile.createNewFile();
-			System.out.println("your file has been added in the location :" + rootPath + "\\" + dirN);
-			System.out.println("**********************************************************************");
-			return;
-		}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-		
-		
-	
+
 	// function to delete a user specific file
 	public void deleteUserFile() {
 		Scanner sc = new Scanner(System.in);
@@ -129,10 +120,22 @@ public class FileUserOperations {
 					myFile.delete();
 
 				}
-			}
-			else {
-				System.out.println("Directory not present");
-			}
+			} else {
+				System.out.println("Mentioned Directory is not present.Please try with existing directory name");
+				System.out.println("Do yo want to continue? Y/N");
+				while (true) {
+					char answer = sc.next().charAt(0);
+					if (answer == 'y' || answer == 'Y') {
+						deleteUserFile();
+					} else if (answer == 'n' || answer == 'N') {
+						System.out.println("returning to main menu");
+						System.out.println("**********************************************************************");
+						return;
+					} else {
+						System.out.println("Please enter a valid option Y/N");
+					}
+				
+			}}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -146,7 +149,7 @@ public class FileUserOperations {
 		File f = new File(rootPath);
 		try {
 			String dirList[] = f.list();
-		
+
 			System.out.println("Enter a file name to search");
 			String userFileName = sc.next();
 
@@ -167,7 +170,7 @@ public class FileUserOperations {
 				System.out.println("File Not present...");
 				System.out.println("Do you want to continue? Y/N");
 				while (true) {
-					
+
 					char answer = sc.next().charAt(0);
 					if (answer == 'y' || answer == 'Y') {
 						searchUserFile();
@@ -175,14 +178,13 @@ public class FileUserOperations {
 						return;
 					} else {
 						System.out.println("Enter a valid option Y/N");
-						//answer = sc.next().charAt(0);
+						// answer = sc.next().charAt(0);
 					}
 
 				}
-				
+
 			}
 
-			
 		} // try ends
 		catch (Exception e) {
 			e.printStackTrace();
@@ -191,40 +193,82 @@ public class FileUserOperations {
 	}
 
 	// List file names in ascending order
+	
 	public void getUserFileNames() {
 		List<String> listOfFiles = new ArrayList<String>();
+		List<String> listOfRootFiles = new ArrayList<String>();
 		// <String>listOfDir = new ArrayList<String>();
 		Scanner sc = new Scanner(System.in);
 		File f = new File(rootPath);
 		
-		if (f.length()==0) {
-			System.out.println("Root Directory is empty");
-		}//if ends
-			
-		else {
-			try {
-				String dirList[] = f.list();
-				System.out.println("List of all directories");
-				for (String element : dirList) {
-					System.out.println(element);
-				}//for ends
-				for (int i = 0; i < dirList.length; i++) {
-					File myFile = new File(rootPath + "\\" + dirList[i]);
+		try {
+			String dirList[] = f.list();
+			System.out.println("List of all directories or files in root folder");
+			for (String element : dirList) {
+				System.out.println(element);
+			}
+			for (int i = 0; i < dirList.length; i++) {
+				File myFile = new File(rootPath + "\\" + dirList[i]);
+				if(myFile.isFile()) {
+					listOfRootFiles.add(myFile.getName());
+				}
+				else {
 					String allFiles[] = myFile.list();
 					for (String fs : allFiles) {
 						listOfFiles.add(fs);
-					}//inner for ends
-	
-				}//for ends
-				Collections.sort(listOfFiles);
-				System.out.println("List of files" + listOfFiles);
-	
-			} catch (Exception e) {
-				e.printStackTrace();
+					}
+				}
+					
+				
 			}
+			listOfFiles.addAll(listOfRootFiles);
+			
+			Collections.sort(listOfFiles);
+			System.out.println("List of files" + listOfFiles);
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-	}//function ends
+	}
 	
 	
 	
-}//class ends
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*
+	 * public void getUserFileNames() { List<String> listOfFiles = new
+	 * ArrayList<String>(); // <String>listOfDir = new ArrayList<String>(); Scanner
+	 * sc = new Scanner(System.in); File f = new File(rootPath);
+	 * //System.out.println(rootPath); //System.out.println(f.length()); if
+	 * (f.length()==0) { System.out.println("Root Directory is empty"); }//if ends
+	 * 
+	 * //else { try { String dirList[] = f.list();
+	 * System.out.println("List of all directories"); for (String element : dirList)
+	 * { System.out.println(element); }//for ends for (int i = 0; i <
+	 * dirList.length; i++) { File myFile = new File(rootPath + "\\" + dirList[i]);
+	 * String allFiles[] = myFile.list(); //System.out.println(myFile.list()); for
+	 * (String fs : allFiles) { listOfFiles.add(fs); }//inner for ends
+	 * 
+	 * }//for ends Collections.sort(listOfFiles); System.out.println("List of files"
+	 * + listOfFiles);
+	 * 
+	 * } catch (Exception e) { e.printStackTrace(); } //} }//function ends
+	 * 
+	 */
+
+}// class ends

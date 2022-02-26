@@ -14,14 +14,15 @@ public class LockedMeMain {
 		//char choice , subchoice;
 		int choice = 0;
 		int subchoice=0;
-		
+		String path = "F:\\LockedMe";
 		//FileUserOperations FUO1 = new FileUserOperations(path);
 		
 		
 		try  {
 			Scanner sc = new Scanner(System.in);
-			System.out.println("Please enter a rootpath in a format Drivename_name\\Directory name ");
-			String path = sc.next();
+			//System.out.println("Please enter a rootpath in a format Drivename_name\\Directory name ");
+			//String path = sc.next();
+			//System.out.println(path);
 			FileUserOperations FUO = new FileUserOperations(path);
 			while (true) {
 				
@@ -34,8 +35,15 @@ public class LockedMeMain {
 				
 				
 				//choice = (char) sc.next().charAt(0);
-				choice = sc.nextInt();
+				try {
+					choice = sc.nextInt();
+				}catch(Exception e){
+					System.out.println("Re run the application with valid choice");
+					break;
+				}
 				
+				
+				//System.out.println(choice);
 				
 				switch (choice) {
 
@@ -59,7 +67,13 @@ public class LockedMeMain {
 					
 					
 				    //subchoice = sc.next().charAt(0);
-					subchoice = sc.nextInt();
+					try {
+						subchoice = sc.nextInt();
+					}catch(Exception e){
+						System.out.println("Re run the application with valid choice");
+						break;
+					}
+					
 				
 					switch (subchoice) {
 
